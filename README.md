@@ -7,7 +7,7 @@
 Webitor is a browser-based code editor/project manager I made for use at a non coding job that didn't allow software on work computers. I just wrapped it in a simple node server for exposition.
 
 > [!IMPORTANT]
-> This project is currently in <span style="color: #09f9DAff;"> spaghetti supreme mode </span> with limited functionality.
+> This project is currently in ***spaghetti supreme mode*** with limited functionality.
 
 
 Actively being tested in the following browsers
