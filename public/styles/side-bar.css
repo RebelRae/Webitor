@@ -1,0 +1,10 @@
+
+#side-bar {
+    position: fixed;
+    width: var(--side-bar-width);
+    height: calc(100% - var(--menu-bar-height) - var(--footer-height));
+    top: var(--menu-bar-height);
+    right: 0px;
+    background-color: var(--theme-lightest);
+    border-left: 1px solid var(--border-color);
+  }

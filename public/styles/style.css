@@ -1,0 +1,73 @@
+:root {
+    --border-color: #7b7b7bff;
+    --text-light-color: #7b7b7bff;
+    --theme-hue: 240;
+    --theme-lightest: hsl(var(--theme-hue), 9%, 31%);
+    --theme-light: hsl(var(--theme-hue), 9.38%, 25.1%);
+    --theme-medium: hsl(var(--theme-hue), 11.11%, 22.94%);
+    --theme-dark: hsl(calc(var(--theme-hue) - 20), 13.04%, 18.04%);
+    --theme-darkest: hsl(var(--theme-hue), 6.38%, 9.22%);
+    --theme-shadow: hsla(var(--theme-hue), 18%, 14%, 0.369);
+    --theme-menu-item: hsl(var(--theme-hue), 8%, 29%);
+    --theme-hover: hsl(calc(var(--theme-hue) + 12), 9%, 34%);
+    --theme-disabled: hsl(calc(var(--theme-hue) + 12), 10%, 30%);
+    --menu-bar-height: 26px;
+    --tab-height: 42px;
+    --side-bar-width: 260px;
+    --footer-height: 14px;
+}
+body, * {
+    margin: 0px;
+    padding: 0px;
+}
+#text-area {
+    background-color: #0000;
+    color: #0000;
+    caret-color: #c0c0c0ff;
+    border: none;
+    resize: none;
+}
+#output-area {
+    background-color: var(--theme-dark);
+}
+#text-area, #output-area {
+    position: absolute;
+    width: -webkit-fill-available;
+    left: 57px;
+    height: -webkit-fill-available;
+    font-size: 15pt;
+    line-height: 20pt;
+    font-family: monospace;
+    overflow: auto;
+    outline: none;
+    white-space: pre;
+    overflow-wrap: normal;
+    padding: 16px;
+    scrollbar-width: 12px;
+}
+#line-number-div {
+    position: absolute;
+    width: 45px;
+    height: -webkit-fill-available;
+    padding: 16px 6px;
+    background-color: var(--theme-darkest);
+    text-align: end;
+    overflow: hidden;
+    font-size: 9pt;
+    line-height: 20pt;
+    word-spacing: 45px;
+    color: #dfdfdfff;
+    top: 0px;
+}
+#file-tabs {
+    position: fixed;
+}
+#status-footer {
+    position: fixed;
+    width: 100%;
+    height: var(--footer-height);
+    left: 0px;
+    top: calc(100% - var(--footer-height) - 1px);
+    background-color: #3a3a46ff;
+    border-top: 1px solid var(--border-color);
+}

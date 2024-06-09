@@ -1,0 +1,10 @@
+#work-area {
+    background-color: var(--theme-dark);
+    position: absolute;
+    width: calc(100% - var(--side-bar-width) - 1px);
+    height: calc(100% - var(--menu-bar-height) - var(--tab-height) - var(--footer-height) - 1px);
+    top: calc(var(--menu-bar-height) + var(--tab-height));
+    left: 0px;
+    border-top: 1px solid var(--border-color);
+    border-left: 1px solid var(--border-color);
+}
