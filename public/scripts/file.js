@@ -55,5 +55,3 @@ class FileHandler {
         this.editor.highlight()
     }
 }
-
-const fileHandler = new FileHandler()

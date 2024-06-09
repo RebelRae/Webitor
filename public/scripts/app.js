@@ -1,109 +1,169 @@
-const textArea = document.createElement('textarea')
-const outputArea = document.getElementById('output-area')
-const lineNumberArea = document.getElementById('line-number-div')
+/* ------------------------------------------------------------- *
+|                                                               |
+| Application Variables                                         |
+|                                                               |
+* ------------------------------------------------------------- */
+const projectManager = new ProjectManager()
 
-// outputArea.setAttribute('class', 'language-javascript')
+/* ------------------------------------------------------------- *
+|                                                               |
+| GUI Variables                                                 |
+|                                                               |
+* ------------------------------------------------------------- */
+const root = document.querySelector(':root')
+const docStyle = getComputedStyle(root)
 
-// const root = document.querySelector(':root')
-// loop = () => {
-//   let hue = parseFloat(getComputedStyle(root).getPropertyValue('--theme-hue')) + 0.1
-//   if(hue >= 360)
-//     hue = 0
-//   root.style.setProperty('--theme-hue', hue)
-//   requestAnimationFrame(loop)
-// }
-// loop()
+const cursor = {
+    x: 0,
+    y: 0,
+    down: false
+}
 
-// let indentValue = 4
-// let indentChar = ' '
+let sideBarwidth = 300
+let sidebarOpen = true
+let sideBarAnimating = false
+let sideBarInterval = null
 
-// textArea.setAttribute('spellcheck', false)
-// textArea.addEventListener('input', () => { highlight() })
-// textArea.addEventListener('scroll', () => { highlight() })
-// textArea.addEventListener('keydown', (event) => {
-//     switch(event.key) {
-//         case 's':
-//         case 'S':
-//             if(event.metaKey || event.ctrlKey) {
-//                 event.preventDefault()
-//                 saveTextAsFile()
-//             }
-//             break
-//         case 'Enter': {
-//             event.preventDefault()
-//             const { selectionStart, selectionEnd, value } = textArea
-//             let beforeCaret = value.substring(0, selectionStart)
-//             let afterCaret = value.substring(selectionEnd)
+/* ------------------------------------------------------------- *
+|                                                               |
+| GUI Functions                                                 |
+|                                                               |
+* ------------------------------------------------------------- */
+closeSideBar = () => {
+    let width = parseInt(docStyle.getPropertyValue('--side-bar-width'))
+    if(width <= 0) {
+        sideBarAnimating = false
+        sidebarOpen = false
+        clearInterval(sideBarInterval)
+        return
+    }
+    width -= 10
+    root.style.setProperty('--side-bar-width', `${width}px`)
+}
+openSideBar = () => {
+    let width = parseInt(docStyle.getPropertyValue('--side-bar-width'))
+    if(width >= sideBarwidth) {
+        sideBarAnimating = false
+        sidebarOpen = true
+        clearInterval(sideBarInterval)
+        return
+    }
+    width += 10
+    root.style.setProperty('--side-bar-width', `${width}px`)
+}
 
-//             let numIndents =
-//                 (beforeCaret.match(/{|\[/g) || []).length
-//                 - (beforeCaret.match(/}|\]/g) || []).length
-//                 + (beforeCaret.match(/'|"/g) || []).length % 2
-//             let indentation = indentChar.repeat(numIndents * indentValue)
+/* ------------------------------------------------------------- *
+|                                                               |
+| Initialize first-level menus                                  |
+| Disable unused menus                                          |
+| Append to DOM                                                 |
+|                                                               |
+* ------------------------------------------------------------- */
+const fileMenu = new MenuItem('File')
+const editMenu = new MenuItem('Edit')
+const helpMenu = new MenuItem('Help')
+const settingsMenu = new MenuItem('Settings')
+const aboutMenu = new MenuItem('About')
 
-                        
-//             if(afterCaret.length > 0 &&  afterCaret[0].match(/}|\]|'|"/g)) {
-//                 afterCaret = `\n${indentChar.repeat((numIndents-1) * indentValue)}` + afterCaret
-//             }
+helpMenu.disable()
+settingsMenu.disable()
+aboutMenu.disable()
 
-//             const indentedText = `${beforeCaret}\n${indentation}${afterCaret}`;
-//             textArea.value = indentedText;
+document.getElementById('menu-bar').appendChild(fileMenu.element)
+document.getElementById('menu-bar').appendChild(editMenu.element)
+document.getElementById('menu-bar').appendChild(helpMenu.element)
+document.getElementById('menu-bar').appendChild(settingsMenu.element)
+document.getElementById('menu-bar').appendChild(aboutMenu.element)
 
-//             const newCaretPosition = selectionStart + indentation.length + 1;
 
-//             textArea.setSelectionRange(newCaretPosition, newCaretPosition);
-//             highlight()
-//             break
-//         }
-//         case '\'':
-//         case '\"':
-//         case '\`':
-//         case '<':
-//         case '(':
-//         case '{':
-//         case '[': {
-//             event.preventDefault()
-//             const { selectionStart, selectionEnd, value } = textArea
-//             const before = value.substring(0, selectionStart)
-//             const selection = value.substring(selectionStart, selectionEnd)
-//             const after = value.substring(selectionEnd)
+/* ------------------------------------------------------------- *
+|                                                               |
+| File Menu Configuration                                       |
+|                                                               |
+* ------------------------------------------------------------- */
+// New
+const newMenuItem = fileMenu.addChild('New')
+    const newProjectMenuItem = newMenuItem.addChild('Project')
+    const newFolderMenuItem = newMenuItem.addChild('Folder')
+    const newFileMenuItem = newMenuItem.addChild('File')
+    newFolderMenuItem.disable()
+    newFileMenuItem.disable()
+// Open
+const openMenuItem = fileMenu.addChild('Open')
+    const openFileMenuItem = openMenuItem.addChild('File')
+    const openProjectMenuItem = openMenuItem.addChild('Project')
+// Save
+const saveMenuItem = fileMenu.addChild('Save')
+saveMenuItem.disable()
 
-//             const indentedText =
-//                 event.key == '<'? `${before}<${selection}>${after}` :
-//                 event.key == '('? `${before}(${selection})${after}` :
-//                 event.key == '{'? `${before}{${selection}}${after}` :
-//                 event.key == '['? `${before}[${selection}]${after}` :
-//                 event.key == '\''? `${before}'${selection}'${after}` :
-//                 event.key == '\"'? `${before}"${selection}"${after}` :
-//                 `${before}\`${selection}\`${after}`
 
-//             textArea.value = indentedText
+newProjectMenuItem.onClick(async() => {
+    const projectName = prompt('Project name', 'New Project')
+    projectManager.createNewProject(projectName)
+})
 
-//             textArea.setSelectionRange(selectionStart + 1, selectionEnd + 1)
-//             highlight()
-//             break
-//         }
-//         case '>':
-//         case ')':
-//         case '}':
-//         case ']': {
-//             const { selectionStart, selectionEnd, value } = textArea
-//             const before = value.substring(0, selectionStart)
-//             const selection = value.substring(selectionStart, selectionEnd)
-//             const after = value.substring(selectionEnd)
-//             if(before.length > 0 && before[before.length-1].match(/{|\[|\(|\</g) &&  after[0].match(/}|\]|\)|\>/g)) {
-//                 event.preventDefault()
-//                 textArea.setSelectionRange(selectionStart + 1, selectionEnd + 1)
-//             } else {
-//                 textArea.setSelectionRange(selectionStart, selectionEnd)
-//             }
-//             highlight()
-//             break
-//         }
-//         default:
-//             break
-//     }
-// })
+openFileMenuItem.onClick(async() => {
+    const files = await window.showOpenFilePicker({
+        types: [
+            {
+                description: 'Editable Files',
+                accept: {
+                    'text/*': ['.js', '.html', '.txt', '.css']
+                }
+            }
+        ],
+        excludeAcceptAllOption: true,
+        multi: true
+    }).catch((error) => { console.log(error) })
+    const file = await files[0].getFile().catch((error) => { console.log(error) })
+    projectManager.fileHandler.addFromFile(file)
+    // new EditorFile(fileHandler, file)
+})
+
+openProjectMenuItem.onClick(async() => {
+    const files = await window.showOpenFilePicker({
+        types: [
+            {
+                description: 'Project Files',
+                accept: {
+                    'application/zip': ['.zip', '.itc']
+                }
+            }
+        ],
+        excludeAcceptAllOption: true,
+        multi: false
+    }).catch((error) => { console.log(error) })
+    const file = await files[0].getFile().catch((error) => { console.log(error) })
+    const zipFileReader = new zip.BlobReader(file)
+    const zipReader = new zip.ZipReader(zipFileReader)
+    const entries = await zipReader.getEntries()
+    entries.forEach(entry => {
+        console.log(entry.filename)
+    })
+    // const data = await file.getData().catch((error) => { console.log(error) })
+    console.log(entries)
+})
+
+/* ------------------------------------------------------------- *
+|                                                               |
+| Edit Menu Configuration                                       |
+|                                                               |
+* ------------------------------------------------------------- */
+// Cut
+const cutMenuItem = editMenu.addChild('Cut')
+cutMenuItem.disable()
+// Copy
+const copyMenuItem = editMenu.addChild('Copy')
+    const selectionMenuItem = copyMenuItem.addChild('Selection')
+    const blockMenuItem = copyMenuItem.addChild('Block')
+    const lineMenuItem = copyMenuItem.addChild('Line')
+    selectionMenuItem.disable()
+    blockMenuItem.disable()
+    lineMenuItem.disable()
+// Paste
+const pasteMenuItem = editMenu.addChild('Paste')
+pasteMenuItem.disable()
+
 
 saveTextAsFile = () => {
     const fileBlob = new Blob([ textArea.value ], { type: 'plain/text' })
@@ -117,15 +177,41 @@ saveTextAsFile = () => {
     downloadLink.click()
 }
 
-// highlight = () => {
-//     const numberOfLines = textArea.value.split('\n').length
-//     lineNumberArea.innerHTML = ''
-//     for(let i = 1; i <= numberOfLines; i++)
-//         lineNumberArea.innerHTML += `${i}\n`
-//     outputArea.innerHTML = textArea.value
-//     outputArea.scrollTop = textArea.scrollTop
-//     lineNumberArea.scrollTop = textArea.scrollTop
-//     outputArea.scrollLeft = textArea.scrollLeft
-//     outputArea.removeAttribute('data-highlighted')
-//     hljs.highlightElement(outputArea)
-// }
+
+/* ------------------------------------------------------------- *
+|                                                               |
+| Inputs                                                        |
+|                                                               |
+* ------------------------------------------------------------- */
+document.body.addEventListener('mousemove', (e) => {
+    cursor.x = e.clientX
+    cursor.y = e.clientY
+})
+document.body.addEventListener('mousedown', (e) => { cursor.down = true })
+document.body.addEventListener('mouseup', (e) => { cursor.down = false })
+document.addEventListener('keydown', (event) => {
+    switch(event.key.toLowerCase()) {
+        case 'b':
+            if((event.metaKey || event.ctrlKey) && !sideBarAnimating) {
+                event.preventDefault()
+                console.log('animating')
+                sideBarInterval = sidebarOpen? setInterval(closeSideBar, 1) : setInterval(openSideBar, 1)
+                sideBarAnimating = true
+            }
+            break
+        case 's':
+            if(event.metaKey || event.ctrlKey) {
+                if(event.shiftKey)
+                    if(projectManager.currentProject)
+                        projectManager.saveProjectToLocalStorage(projectManager.currentProject)
+                    else
+                        alert('no project to save')
+                else {
+                    // Save current file
+                }
+            }
+            break
+        default:
+            break
+    }
+})
