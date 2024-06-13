@@ -1,6 +1,11 @@
 :root {
     --border-color: #7b7b7bff;
     --text-light-color: #7b7b7bff;
+    --text-lighter-color: #b1b1b1ff;
+    --icon-folder-color: #a59042ff;
+    --icon-file-color: #2e9b82ff;
+    --icon-image-color: #c047c7ff;
+
     --theme-hue: 240;
     --theme-lightest: hsl(var(--theme-hue), 9%, 31%);
     --theme-light: hsl(var(--theme-hue), 9.38%, 25.1%);
@@ -11,6 +16,7 @@
     --theme-menu-item: hsl(var(--theme-hue), 8%, 29%);
     --theme-hover: hsl(calc(var(--theme-hue) + 12), 9%, 34%);
     --theme-disabled: hsl(calc(var(--theme-hue) + 12), 10%, 30%);
+
     --menu-bar-height: 26px;
     --tab-height: 42px;
     --side-bar-width: 260px;

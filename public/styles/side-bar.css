@@ -5,6 +5,42 @@
     height: calc(100% - var(--menu-bar-height) - var(--footer-height));
     top: var(--menu-bar-height);
     right: 0px;
+    padding-top: 12px;
     background-color: var(--theme-lightest);
     border-left: 1px solid var(--border-color);
-  }
+    font-family: system-ui;
+    font-weight: 600;
+    font-size: small;
+    color: var(--text-lighter-color);
+}
+
+.side-bar-item {
+    padding-left: 12px;
+}
+
+.side-bar-item-outer:hover {
+    background-color: var(--theme-medium);
+}
+
+.side-bar-item-inner {
+    position: relative;
+}
+
+.side-bar-drop-line {
+    background-color: var(--border-color);
+    width: 1px;
+    height: calc(100% - 2px);
+    position: absolute;
+}
+
+.side-bar-item-folder > .side-bar-item-outer > svg {
+    fill: var(--icon-folder-color);
+}
+
+.side-bar-item-file > .side-bar-item-outer > svg {
+    fill: var(--icon-file-color);
+}
+
+.side-bar-item-image > .side-bar-item-outer > svg {
+    fill: var(--icon-image-color);
+}

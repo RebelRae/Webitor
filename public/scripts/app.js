@@ -201,6 +201,7 @@ document.addEventListener('keydown', (event) => {
             break
         case 's':
             if(event.metaKey || event.ctrlKey) {
+                event.preventDefault()
                 if(event.shiftKey)
                     if(projectManager.currentProject)
                         projectManager.saveProjectToLocalStorage(projectManager.currentProject)
