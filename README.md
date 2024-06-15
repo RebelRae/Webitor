@@ -29,5 +29,6 @@ Refer to the [Coding Style Guidelines](docs/GUIDELINES.md) for conventions used 
 
 | Dependency    | Uses                  | Link                                     |
 | :-            |                   :-: |                                       -: |
-| zip.js        | handling zip files    | https://gildas-lormeau.github.io/zip.js  |
+| jszip         | handling zip files    | https://github.com/Stuk/jszip            |
 | Highlight.js  | syntax highlighting   | https://highlightjs.org                  |
+| BSIcons       | all icon SVG paths    | https://icons.getbootstrap.com/          |

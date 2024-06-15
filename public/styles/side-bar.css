@@ -1,17 +1,21 @@
-
 #side-bar {
     position: fixed;
     width: var(--side-bar-width);
     height: calc(100% - var(--menu-bar-height) - var(--footer-height));
     top: var(--menu-bar-height);
     right: 0px;
-    padding-top: 12px;
     background-color: var(--theme-lightest);
     border-left: 1px solid var(--border-color);
     font-family: system-ui;
     font-weight: 600;
     font-size: small;
     color: var(--text-lighter-color);
+    overflow: auto;
+    scrollbar-width: 4px;
+}
+
+#side-bar > .side-bar-item:first-child {
+    padding-top: 12px;
 }
 
 .side-bar-item {
@@ -31,6 +35,16 @@
     width: 1px;
     height: calc(100% - 2px);
     position: absolute;
+}
+
+.side-bar-item-outer > svg {
+    width: 16px;
+    height: 16px;
+    margin-right: 4px;
+}
+
+.side-bar-item-project > .side-bar-item-outer > svg {
+    fill: var(--icon-project-color);
 }
 
 .side-bar-item-folder > .side-bar-item-outer > svg {

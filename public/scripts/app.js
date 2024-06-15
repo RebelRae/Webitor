@@ -3,6 +3,7 @@
 | Application Variables                                         |
 |                                                               |
 * ------------------------------------------------------------- */
+const jsZip = new JSZip()
 const projectManager = new ProjectManager()
 
 /* ------------------------------------------------------------- *
@@ -133,15 +134,39 @@ openProjectMenuItem.onClick(async() => {
         excludeAcceptAllOption: true,
         multi: false
     }).catch((error) => { console.log(error) })
-    const file = await files[0].getFile().catch((error) => { console.log(error) })
-    const zipFileReader = new zip.BlobReader(file)
-    const zipReader = new zip.ZipReader(zipFileReader)
-    const entries = await zipReader.getEntries()
-    entries.forEach(entry => {
-        console.log(entry.filename)
+    let zFile = await files[0].getFile().catch((error) => { console.log(error) })
+    zFile = await jsZip.loadAsync(zFile)
+    // console.log(zFile)
+    // for(const file in zFile.files) {
+    //     console.log(file)
+    // }
+    const sideBar = document.getElementById('side-bar')
+    sideBar.innerHTML = ''
+    Object.keys(zFile.files).forEach(entry => {
+        tree.addNode(zFile.files[entry])
     })
-    // const data = await file.getData().catch((error) => { console.log(error) })
-    console.log(entries)
+
+    sideBar.appendChild(tree.root.element)
+    tree.root.setProject(zFile)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 })
 
 /* ------------------------------------------------------------- *
@@ -191,10 +216,27 @@ document.body.addEventListener('mousedown', (e) => { cursor.down = true })
 document.body.addEventListener('mouseup', (e) => { cursor.down = false })
 document.addEventListener('keydown', (event) => {
     switch(event.key.toLowerCase()) {
+        case '-':
+            if((event.metaKey || event.ctrlKey) && !sideBarAnimating) {
+                event.preventDefault()
+                let lineHeight = parseInt(docStyle.getPropertyValue('--editor-line-height'))
+                lineHeight--
+                if(lineHeight < 4) lineHeight = 4
+                root.style.setProperty('--editor-line-height', `${lineHeight}px`)
+            }
+            break
+        case '=':
+            if((event.metaKey || event.ctrlKey) && !sideBarAnimating) {
+                event.preventDefault()
+                let lineHeight = parseInt(docStyle.getPropertyValue('--editor-line-height'))
+                lineHeight++
+                if(lineHeight > 24) lineHeight = 24
+                root.style.setProperty('--editor-line-height', `${lineHeight}px`)
+            }
+            break
         case 'b':
             if((event.metaKey || event.ctrlKey) && !sideBarAnimating) {
                 event.preventDefault()
-                console.log('animating')
                 sideBarInterval = sidebarOpen? setInterval(closeSideBar, 1) : setInterval(openSideBar, 1)
                 sideBarAnimating = true
             }

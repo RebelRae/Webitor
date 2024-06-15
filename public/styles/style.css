@@ -2,6 +2,7 @@
     --border-color: #7b7b7bff;
     --text-light-color: #7b7b7bff;
     --text-lighter-color: #b1b1b1ff;
+    --icon-project-color: #426fa5ff;
     --icon-folder-color: #a59042ff;
     --icon-file-color: #2e9b82ff;
     --icon-image-color: #c047c7ff;
@@ -21,6 +22,7 @@
     --tab-height: 42px;
     --side-bar-width: 260px;
     --footer-height: 14px;
+    --editor-line-height: 11pt;
 }
 body, * {
     margin: 0px;
@@ -41,8 +43,8 @@ body, * {
     width: -webkit-fill-available;
     left: 57px;
     height: -webkit-fill-available;
-    font-size: 15pt;
-    line-height: 20pt;
+    font-size: calc(var(--editor-line-height) - 2px);
+    line-height: var(--editor-line-height);
     font-family: monospace;
     overflow: auto;
     outline: none;
@@ -59,8 +61,8 @@ body, * {
     background-color: var(--theme-darkest);
     text-align: end;
     overflow: hidden;
-    font-size: 9pt;
-    line-height: 20pt;
+    font-size: calc(var(--editor-line-height) - 4px);
+    line-height: var(--editor-line-height);
     word-spacing: 45px;
     color: #dfdfdfff;
     top: 0px;
@@ -76,4 +78,26 @@ body, * {
     top: calc(100% - var(--footer-height) - 1px);
     background-color: #3a3a46ff;
     border-top: 1px solid var(--border-color);
+}
+
+
+/* width */
+::-webkit-scrollbar {
+    width: 8px;
+    background-color: var(--theme-darkest);
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555; 
 }
