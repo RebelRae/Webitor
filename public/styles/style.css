@@ -6,6 +6,7 @@
     --icon-folder-color: #a59042ff;
     --icon-file-color: #2e9b82ff;
     --icon-image-color: #c047c7ff;
+    --transparent: #00000000;
 
     --theme-hue: 240;
     --theme-lightest: hsl(var(--theme-hue), 9%, 31%);
@@ -29,8 +30,8 @@ body, * {
     padding: 0px;
 }
 #text-area {
-    background-color: #0000;
-    color: #0000;
+    background-color: var(--transparent);
+    color: var(--transparent);
     caret-color: #c0c0c0ff;
     border: none;
     resize: none;
@@ -64,7 +65,7 @@ body, * {
     font-size: calc(var(--editor-line-height) - 4px);
     line-height: var(--editor-line-height);
     word-spacing: 45px;
-    color: #dfdfdfff;
+    color: var(--text-lighter-color);
     top: 0px;
 }
 #file-tabs {
@@ -76,28 +77,23 @@ body, * {
     height: var(--footer-height);
     left: 0px;
     top: calc(100% - var(--footer-height) - 1px);
-    background-color: #3a3a46ff;
+    background-color: var(--theme-medium);
     border-top: 1px solid var(--border-color);
 }
 
-
-/* width */
 ::-webkit-scrollbar {
     width: 8px;
-    background-color: var(--theme-darkest);
+    height: 8px;
 }
 
-/* Track */
 ::-webkit-scrollbar-track {
-    background: #f1f1f1; 
+    background-color: var(--theme-lightest); 
 }
 
-/* Handle */
 ::-webkit-scrollbar-thumb {
-    background: #888; 
+    background-color: var(--theme-light); 
 }
 
-/* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-    background: #555; 
+    background-color: var(--theme-medium); 
 }

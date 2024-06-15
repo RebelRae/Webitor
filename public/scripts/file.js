@@ -84,9 +84,9 @@ class FSNode {
         this.innerDiv.classList.add('side-bar-item-inner')
         this.innerDiv.style.display = 'none'
 
-        const dropLine = document.createElement('div')
-        dropLine.classList.add('side-bar-drop-line')
-        this.innerDiv.appendChild(dropLine)
+        this.dropLine = document.createElement('div')
+        this.dropLine.classList.add('side-bar-drop-line')
+        this.innerDiv.appendChild(this.dropLine)
 
         this.dirContent = document.createElement('div')
         this.dirContent.classList.add('side-bar-subnav')
@@ -106,7 +106,7 @@ class FSNode {
         this.outerDiv.removeEventListener('click', this.toggleOpen)
         delete this.toggleOpen
         delete this.folderOpen
-        
+
         const path = file.name.split('/')
         const filename = path[path.length-1]
         const fileext = filename.split('.')
@@ -133,6 +133,7 @@ class FSNode {
     setProject = (zFile) => {
         console.log(zFile)
         this.innerDiv.style.display = 'block'
+        this.dropLine.style.display = 'none'
         this.outerDiv.removeEventListener('click', this.toggleOpen)
         delete this.toggleOpen
         delete this.folderOpen
