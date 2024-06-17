@@ -97,3 +97,12 @@ body, * {
 ::-webkit-scrollbar-thumb:hover {
     background-color: var(--theme-medium); 
 }
+
+#startup {
+    text-align: center;
+    color: #9c9cd3ff;
+    justify-content: center;
+    display: grid;
+    padding: 40px;
+    font-family: monospace;
+}

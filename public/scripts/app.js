@@ -135,38 +135,11 @@ openProjectMenuItem.onClick(async() => {
         multi: false
     }).catch((error) => { console.log(error) })
     let zFile = await files[0].getFile().catch((error) => { console.log(error) })
+    const projectName = zFile.name.split('.').slice(0, -1).join('.')
     zFile = await jsZip.loadAsync(zFile)
-    // console.log(zFile)
-    // for(const file in zFile.files) {
-    //     console.log(file)
-    // }
-    const sideBar = document.getElementById('side-bar')
-    sideBar.innerHTML = ''
-    Object.keys(zFile.files).forEach(entry => {
-        tree.addNode(zFile.files[entry])
-    })
-
-    sideBar.appendChild(tree.root.element)
-    tree.root.setProject(zFile)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    zFile.name = projectName
+    // TODO : Catch failures
+    projectManager.loadProjectFromFile(zFile)
 })
 
 /* ------------------------------------------------------------- *
@@ -222,7 +195,7 @@ document.addEventListener('keydown', (event) => {
                 let lineHeight = parseInt(docStyle.getPropertyValue('--editor-line-height'))
                 lineHeight--
                 if(lineHeight < 4) lineHeight = 4
-                root.style.setProperty('--editor-line-height', `${lineHeight}px`)
+                root.style.setProperty('--editor-line-height', `${lineHeight}pt`)
             }
             break
         case '=':
@@ -231,7 +204,7 @@ document.addEventListener('keydown', (event) => {
                 let lineHeight = parseInt(docStyle.getPropertyValue('--editor-line-height'))
                 lineHeight++
                 if(lineHeight > 24) lineHeight = 24
-                root.style.setProperty('--editor-line-height', `${lineHeight}px`)
+                root.style.setProperty('--editor-line-height', `${lineHeight}pt`)
             }
             break
         case 'b':

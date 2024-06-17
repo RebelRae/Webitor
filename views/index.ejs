@@ -3,7 +3,8 @@
 
 <head>
     <title>Webitor Code Editor</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/javascript.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/html.min.js"></script>
@@ -18,7 +19,61 @@
 <body>
     <div id="menu-bar"></div>
     <div id="tab-bar"></div>
-    <div id="work-area"></div>
+    <div id="work-area">
+        <div id="startup">
+            <h1 id="webitor">Webitor</h1>
+            <h6 id="version---100">Version - 1.0.0</h6>
+            <br><br>
+            <p>This project is still in it&#39;s development phase</p>
+            <br><br>
+            <p>Import project in <em>.zip</em> or <em>.itc</em> format, load local projects from browser storage, or start fresh.</p>
+            <br><br>
+            <p><strong>UI Controls</strong></p>
+            <table>
+                <thead>
+                    <tr>
+                        <th align="left">Action</th>
+                        <th align="center">Hotkey Combo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td align="left">Toggle File Explorer</td>
+                        <td align="center">ctrl/meta + &#39;b&#39;</td>
+                    </tr>
+                    <tr>
+                        <td align="left">Editor Zoom In</td>
+                        <td align="center">ctrl/meta + &#39;+&#39;</td>
+                    </tr>
+                    <tr>
+                        <td align="left">Editor Zoom Out</td>
+                        <td align="center">ctrl/meta + &#39;-&#39;</td>
+                    </tr>
+                </tbody>
+            </table>
+            <br><br>
+            <p><strong>File Controls</strong></p>
+            <table>
+                <thead>
+                    <tr>
+                        <th align="left">Action</th>
+                        <th align="center">Hotkey Combo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td align="left">Save Current File</td>
+                        <td align="center">ctrl/meta + &#39;s&#39;</td>
+                    </tr>
+                    <tr>
+                        <td align="left">Save Current Project</td>
+                        <td align="center">ctrl/meta + shift + &#39;s&#39;</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
     <div id="side-bar"></div>
     <div id="status-footer"></div>
     <script defer src="./scripts/icons.js"></script>

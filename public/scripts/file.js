@@ -151,7 +151,7 @@ class FSNode {
         this.outerDiv.appendChild(svg)
 
         const nameSpan = document.createElement('span')
-        nameSpan.innerText = ''
+        nameSpan.innerText = zFile.name
         this.outerDiv.appendChild(nameSpan)
     }
 }
@@ -176,6 +176,3 @@ class FSTrie {
         if(!file.dir) node.setFile(file)
     }
 }
-
-const tree = new FSTrie()
-// console.log(tree)
