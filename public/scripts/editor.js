@@ -1,8 +1,27 @@
 class Editor {
-    constructor() {
+    constructor(manager) {
+        this.manager = manager
         this.zoom = 1.0 // TODO : Settings
+        
+        this.textArea = document.createElement('textarea')
+        this.textArea.setAttribute('id', 'text-area')
+        this.textArea.setAttribute('spellcheck', false)
+        this.textArea.addEventListener('input', () => { this.fileHandler.editor.highlight() })
+        this.textArea.addEventListener('scroll', () => { this.fileHandler.editor.highlight() })
+        this.textArea.addEventListener('keydown', (event) => { this.fileHandler.editor.input(event) })
+
+        this.outputArea = document.createElement('pre')
+        this.outputArea.setAttribute('id', 'output-area')
+        this.outputArea.setAttribute('class', 'language-javascript')
+
+        this.lineNumberArea = document.createElement('div')
+        this.lineNumberArea.setAttribute('id', 'line-number-div')
     }
     
+    openFile = (file) => {
+        this.currentFile = file
+        console.log('opening ' + this.currentFile.name)
+    }
     highlight = () => {
         const textArea = document.getElementById('text-area')
         const outputArea = document.getElementById('output-area')

@@ -23,11 +23,11 @@ class EditorFile {
         this.loadFile()
     }
     loadFile = async () => {
-        const content = await this.file.text().catch((error) => { console.log(error) })
+        const content = await this.file.async('string').catch((error) => { console.log(error) })
         console.log(content)
         this.fileContent = content
         this.textArea.value = content
-        this.fileHandler.bump(this)
+        // this.fileHandler.bump(this)
     }
 }
 
@@ -57,7 +57,8 @@ class FileHandler {
 }
 
 class FSNode {
-    constructor(name = 'Project Directory') {
+    constructor(name = 'Project Directory', project) {
+        this.project = project
         this.children = new Map()
         this.terminal = false
         this.folderOpen = false
@@ -103,13 +104,19 @@ class FSNode {
         this.folderOpen = !this.folderOpen
     }
     setFile = (file) => {
+        this.openFile = async () => {
+            // const content = await file.async('string')
+            // console.log(content)
+            // const editorFile = new EditorFile(null, file)
+            this.project.openFileInEditor(file)
+        }
+        this.outerDiv.addEventListener('dblclick', this.openFile)
         this.outerDiv.removeEventListener('click', this.toggleOpen)
         delete this.toggleOpen
         delete this.folderOpen
 
         const path = file.name.split('/')
         const filename = path[path.length-1]
-        const fileext = filename.split('.')
 
         this.element.className = ''
         this.element.classList.add('side-bar-item')
@@ -157,8 +164,9 @@ class FSNode {
 }
 
 class FSTrie {
-    constructor() {
-        this.root = new FSNode()
+    constructor(project) {
+        this.project = project
+        this.root = new FSNode(null, this.project)
     }
     addNode = (file) => {
         const nodePath = file.name
@@ -167,12 +175,13 @@ class FSTrie {
         if(subdirs[subdirs.length -1] == '') subdirs.pop()
         for(const name of subdirs) {
             if(!node.children.has(name)) {
-                const childNode = new FSNode(name)
+                const childNode = new FSNode(name, this.project)
                 node.innerDiv.append(childNode.element)
                 node.children.set(name, childNode)
             }
             node = node.children.get(name)
         }
         if(!file.dir) node.setFile(file)
+        return node
     }
 }
