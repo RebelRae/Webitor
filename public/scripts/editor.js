@@ -2,25 +2,82 @@ class Editor {
     constructor(manager) {
         this.manager = manager
         this.zoom = 1.0 // TODO : Settings
-        
+
         this.textArea = document.createElement('textarea')
         this.textArea.setAttribute('id', 'text-area')
         this.textArea.setAttribute('spellcheck', false)
-        this.textArea.addEventListener('input', () => { this.fileHandler.editor.highlight() })
-        this.textArea.addEventListener('scroll', () => { this.fileHandler.editor.highlight() })
-        this.textArea.addEventListener('keydown', (event) => { this.fileHandler.editor.input(event) })
+        this.textArea.addEventListener('input', () => { this.highlight() })
+        this.textArea.addEventListener('scroll', () => { this.highlight() })
+        this.textArea.addEventListener('keydown', (event) => { this.input(event) })
 
         this.outputArea = document.createElement('pre')
         this.outputArea.setAttribute('id', 'output-area')
-        this.outputArea.setAttribute('class', 'language-javascript')
 
         this.lineNumberArea = document.createElement('div')
         this.lineNumberArea.setAttribute('id', 'line-number-div')
     }
     
-    openFile = (file) => {
+    openFile = async (file) => {
         this.currentFile = file
-        console.log('opening ' + this.currentFile.name)
+
+        const content = await this.currentFile.async('string')
+        this.textArea.value = content
+        
+        let ext = this.currentFile.name.split('.')
+        ext = ext[ext.length - 1]
+
+        this.outputArea.className = ''
+        switch(ext) {
+            case 'md':
+            case 'mkd':
+            case 'mkdown':
+            case 'markdown':
+                this.outputArea.setAttribute('class', 'language-markdown')
+                break
+            case 'ts':
+            case 'tsx':
+            case 'mts':
+            case 'cts':
+            case 'typescript':
+                this.outputArea.setAttribute('class', 'language-typescript')
+                break
+            case 'js':
+            case 'jsx':
+            case 'javascript':
+                this.outputArea.setAttribute('class', 'language-javascript')
+                break
+            case 'jsonc':
+            case 'json':
+                this.outputArea.setAttribute('class', 'language-json')
+                break
+            case 'ejs':
+            case 'html':
+            case 'xhtml':
+                this.outputArea.setAttribute('class', 'language-html')
+                this.textArea.value = this.textArea.value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;")
+                break
+            case 'xml':
+            case 'rss':
+            case 'xjb':
+            case 'xsd':
+            case 'xsl':
+            case 'svg':
+            case 'atom':
+            case 'plist':
+                this.outputArea.setAttribute('class', 'language-xml')
+                this.textArea.value = this.textArea.value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;")
+                break
+            default:
+                this.outputArea.setAttribute('class', 'language-plaintext')
+                break
+        }
+
+        const workArea = document.getElementById('work-area')
+        workArea.innerHTML = ''
+        workArea.appendChild(this.lineNumberArea)
+        workArea.appendChild(this.outputArea)
+        workArea.appendChild(this.textArea)
+        this.highlight()
     }
     highlight = () => {
         const textArea = document.getElementById('text-area')

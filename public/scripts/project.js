@@ -13,7 +13,6 @@ class ProjectManager {
     constructor() {
         this.projects = new Array()
         this.currentProject = null
-        // this.fileHandler = new FileHandler()
         this.editor = new Editor(this)
     }
     createNewProject = (name) => {
@@ -27,10 +26,6 @@ class ProjectManager {
         sideBar.innerHTML = ''
         Object.keys(file.files).forEach(entry => {
             const node = this.currentProject.fileTree.addNode(file.files[entry])
-            if(node.terminal) {
-                const element = node.element
-            }
-                // console.log(node)
         })
     
         sideBar.appendChild(this.currentProject.fileTree.root.element)
@@ -39,10 +34,10 @@ class ProjectManager {
     saveProjectToLocalStorage = async (project) => {
         const zipFileWriter = new zip.BlobWriter()
         const zipWriter = new zip.ZipWriter(zipFileWriter)
-        const saveProject = await zipWriter.close() // TODO : Send to FileHandler
+        const saveProject = await zipWriter.close()
         localStorage.setItem(project.name, saveProject)
     }
     openFileInEditor = (file) => {
-        this.editor.openFile()
+        this.editor.openFile(file)
     }
 }
