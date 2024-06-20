@@ -7,8 +7,9 @@
     background-color: var(--theme-light);
     display: flex;
     align-items: center;
+    user-select: none;
 }
-#tab-bar > div {
+.tab-bar-item {
     position: relative;
     background-color: var(--theme-medium);
     height: var(--tab-height);
@@ -20,7 +21,22 @@
     font-family: monospace;
     color: var(--text-light-color);
     overflow-x: hidden;
+    display: flex;
+    align-items: center;
 }
-#tab-bar > div:first-child {
+.tab-bar-item:first-child {
     border-left: 1px solid var(--border-color);
+}
+.tab-bar-close {
+    width: 10px;
+    height: 10px;
+    margin-left: 6px;
+    fill: var(--text-lighter-color);
+    display: none;
+}
+.tab-bar-close:hover {
+    fill: var(--text-light-color)
+}
+.tab-bar-item:hover .tab-bar-close {
+    display: block;
 }

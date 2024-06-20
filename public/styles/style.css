@@ -67,6 +67,7 @@ body, * {
     word-spacing: 45px;
     color: var(--text-lighter-color);
     top: 0px;
+    user-select: none;
 }
 #file-tabs {
     position: fixed;

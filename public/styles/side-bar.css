@@ -12,6 +12,7 @@
     color: var(--text-lighter-color);
     overflow: auto;
     scrollbar-width: 4px;
+    user-select: none;
 }
 
 #side-bar > .side-bar-item:first-child {

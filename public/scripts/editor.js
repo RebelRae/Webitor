@@ -28,6 +28,9 @@ class Editor {
 
         this.outputArea.className = ''
         switch(ext) {
+            case 'css':
+                this.outputArea.setAttribute('class', 'language-css')
+                break
             case 'md':
             case 'mkd':
             case 'mkdown':

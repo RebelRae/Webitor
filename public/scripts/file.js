@@ -11,11 +11,10 @@ class FSNode {
 
         this.outerDiv = document.createElement('div')
         this.outerDiv.classList.add('side-bar-item-outer')
+        this.outerDiv.addEventListener('click', this.toggleOpen)
 
         const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
-        svg.setAttributeNS('http://www.w3.org/2000/svg', 'width', '16')
-        svg.setAttributeNS('http://www.w3.org/2000/svg', 'height', '16')
-        svg.setAttributeNS('http://www.w3.org/2000/svg', 'viewBox', '0 0 16 16')
+        svg.setAttribute('viewBox', '0 0 16 16')
         svg.innerHTML = ICONS.bs['folder2-open']
         this.outerDiv.appendChild(svg)
 
@@ -38,7 +37,11 @@ class FSNode {
         this.element.appendChild(this.outerDiv)
         this.element.appendChild(this.innerDiv)
 
-        this.outerDiv.addEventListener('click', this.toggleOpen)
+        this.tabElement = document.createElement('div')
+        this.tabElement.classList.add('tab-bar-item')
+
+        this.tabName = document.createElement('span')
+        this.tabName.innerText = name
     }
 
     toggleOpen = () => {
@@ -46,8 +49,23 @@ class FSNode {
         this.folderOpen = !this.folderOpen
     }
     setFile = (file) => {
+        const tabBar = document.getElementById('tab-bar')
+        this.closeFile = async () => {
+            tabBar.removeChild(this.tabElement)
+        }
         this.openFile = async () => {
             this.project.openFileInEditor(file)
+
+            this.tabCloseSVG = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
+            this.tabCloseSVG.classList.add('tab-bar-close')
+            this.tabCloseSVG.setAttribute('viewBox', '0 0 16 16')
+            this.tabCloseSVG.innerHTML = ICONS.bs['x-circle-fill']
+            this.tabCloseSVG.addEventListener('click', this.closeFile)
+
+            this.tabElement.innerHTML = ''
+            this.tabElement.appendChild(this.tabName)
+            this.tabElement.appendChild(this.tabCloseSVG)
+            tabBar.appendChild(this.tabElement)
         }
         this.outerDiv.addEventListener('dblclick', this.openFile)
         this.outerDiv.removeEventListener('click', this.toggleOpen)
@@ -63,15 +81,14 @@ class FSNode {
         this.outerDiv.innerHTML = ''
 
         const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
-        svg.setAttributeNS('http://www.w3.org/2000/svg', 'width', '16')
-        svg.setAttributeNS('http://www.w3.org/2000/svg', 'height', '16')
-        svg.setAttributeNS('http://www.w3.org/2000/svg', 'viewBox', '0 0 16 16')
+        svg.setAttribute('viewBox', '0 0 16 16')
         svg.innerHTML = ICONS.bs['file-earmark-text']
         this.outerDiv.appendChild(svg)
 
         const nameSpan = document.createElement('span')
         nameSpan.innerText = filename
         this.outerDiv.appendChild(nameSpan)
+        this.tabName.innerText = filename
         
         this.terminal = true
         delete this.children
@@ -90,9 +107,7 @@ class FSNode {
         this.outerDiv.innerHTML = ''
 
         const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
-        svg.setAttributeNS('http://www.w3.org/2000/svg', 'width', '16')
-        svg.setAttributeNS('http://www.w3.org/2000/svg', 'height', '16')
-        svg.setAttributeNS('http://www.w3.org/2000/svg', 'viewBox', '0 0 16 16')
+        svg.setAttribute('viewBox', '0 0 16 16')
         svg.innerHTML = ICONS.bs['box']
         this.outerDiv.appendChild(svg)
 
