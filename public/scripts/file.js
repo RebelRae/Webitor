@@ -52,6 +52,7 @@ class FSNode {
         const tabBar = document.getElementById('tab-bar')
         this.closeFile = async () => {
             tabBar.removeChild(this.tabElement)
+            this.project.closeFileInEditor(file)
         }
         this.openFile = async () => {
             this.project.openFileInEditor(file)
@@ -65,8 +66,10 @@ class FSNode {
             this.tabElement.innerHTML = ''
             this.tabElement.appendChild(this.tabName)
             this.tabElement.appendChild(this.tabCloseSVG)
-            tabBar.appendChild(this.tabElement)
+            if(!tabBar.contains(this.tabElement))
+                tabBar.appendChild(this.tabElement)
         }
+        this.tabElement.addEventListener('click', this.openFile)
         this.outerDiv.addEventListener('dblclick', this.openFile)
         this.outerDiv.removeEventListener('click', this.toggleOpen)
         delete this.toggleOpen
@@ -94,7 +97,6 @@ class FSNode {
         delete this.children
     }
     setProject = (zFile) => {
-        console.log(zFile)
         this.innerDiv.style.display = 'block'
         this.dropLine.style.display = 'none'
         this.outerDiv.removeEventListener('click', this.toggleOpen)

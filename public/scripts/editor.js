@@ -82,6 +82,12 @@ class Editor {
         workArea.appendChild(this.textArea)
         this.highlight()
     }
+
+    clear = () => {
+        const workArea = document.getElementById('work-area')
+        workArea.innerHTML = ''
+    }
+
     highlight = () => {
         const textArea = document.getElementById('text-area')
         const outputArea = document.getElementById('output-area')

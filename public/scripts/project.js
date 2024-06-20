@@ -7,6 +7,7 @@ class Project {
         this.fileTree = new FSTrie(this)
     }
     openFileInEditor = (file) => { this.manager.openFileInEditor(file) }
+    closeFileInEditor = (file) => { this.manager.closeFileInEditor(file) }
 }
 
 class ProjectManager {
@@ -39,5 +40,8 @@ class ProjectManager {
     }
     openFileInEditor = (file) => {
         this.editor.openFile(file)
+    }
+    closeFileInEditor = (file) => {
+        this.editor.clear()
     }
 }
